@@ -1,5 +1,6 @@
-import { Card, Grid, Row, Text } from "@nextui-org/react";
-export default function Cards({query}) {
+import { Card, Grid, Row, Text,Button } from "@nextui-org/react";
+
+export default function Cards({query , items, setItems}) {
   const list = [
     {
       title: "Orange",
@@ -48,6 +49,9 @@ export default function Cards({query}) {
         else return data.title.toLowerCase().includes(query.toLowerCase());
     })
     console.log(Filterlist); 
+  const addItems = () => {
+    setItems(items + 1);
+  }
 
 
   return (
@@ -56,7 +60,7 @@ export default function Cards({query}) {
         
       Filterlist.map((item, index) => (
         <Grid xs={6} sm={3} key={index}>
-          <Card isPressable>
+          <Card isPressable className="transition-transform duration-300 ease-in-out transform hover:-translate-y-1">
             <Card.Body css={{ p: 0 }}>
               <Card.Image
                 src={"https://nextui.org" + item.img}
@@ -72,6 +76,9 @@ export default function Cards({query}) {
                 <Text css={{ color: "$accents7", fontWeight: "$semibold", fontSize: "$sm" }}>
                   {item.price}
                 </Text>
+              <Button bordered color="primary" auto  onPress={addItems}>
+                Add
+              </Button>
               </Row>
             </Card.Footer>
           </Card>

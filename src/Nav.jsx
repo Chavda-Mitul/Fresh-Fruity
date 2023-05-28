@@ -1,8 +1,11 @@
 import { useSignIn  } from "./useSIgnin";
 import { searchHook } from "./searchHook";
 import { Link } from "react-router-dom"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 
-export default function Nav({query,setQuery}) 
+
+export default function Nav({query,setQuery,items}) 
 {
     const {isSignedIn, signin , signout } = useSignIn();
     return (
@@ -88,6 +91,13 @@ export default function Nav({query,setQuery})
                 </li>
               </ul>
               <input type="text" onChange={event => setQuery(event.target.value)} placeholder="Search.." className=" mr-6 border-2 border-gray-300 py-2 px-4 rounded-md focus:outline-none"></input>
+              <Link to="/cart"
+              >
+              <div className=" w-20 overflow-hidden">
+              <span style={{right:"188px" ,top: "49px"}} className="absolute z-2 text-xs font-bold bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center ">{items}</span>
+              <FontAwesomeIcon icon={faCartShopping} size="xl" style={{color:"#ffffff" , cursor:"pointer"}} />
+              </div>
+              </Link>
             </div>
           </div>
         </nav>

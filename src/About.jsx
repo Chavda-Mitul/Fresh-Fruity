@@ -32,7 +32,7 @@ export default function About({query}){
         if(query === '') return data;
         else return data.name.toLowerCase().includes(query.toLowerCase());
     })
-    console.log(Filterlist);     
+    // console.log(Filterlist);     
     return (
         <>
             <h1 className="text-5xl mt-10">About</h1>

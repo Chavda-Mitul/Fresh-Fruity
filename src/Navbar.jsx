@@ -9,6 +9,7 @@ import { useSignIn  } from "./useSIgnin";
 import Protected from './Protected';
 import Nav from './Nav';
 import Cart from './Cart';
+import SummaryPage from './SummaryPage';
 
 export default function Navbar() {
   const {isSignedIn, signin , signout } = useSignIn();

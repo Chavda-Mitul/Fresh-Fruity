@@ -1,11 +1,12 @@
   import { Card, Grid, Row, Text,Button } from "@nextui-org/react";
   import { useState, useEffect } from "react";
   import list from './listData';
+  
 
-  export default function Cards({query , items, setItems}) {
+  export default function Cards({query , items, setItems,selectedItems,setSelectedItems}) {
     
 
-    const [selectedItems, setSelectedItems] = useState([]); 
+    // const [selectedItems, setSelectedItems] = useState([]); 
 
     const Filterlist = list.filter((data) =>{
           if(query === '') return data;

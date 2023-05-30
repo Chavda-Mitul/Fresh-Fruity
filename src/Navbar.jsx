@@ -29,7 +29,7 @@ export default function Navbar() {
               <Home query={query} items={items} setItems={setItems} selectedItems={selectedItems} setSelectedItems={setSelectedItems}/>
               </Protected>
           }/> 
-          <Route path="/registration" element={<Register />} />
+          <Route path="/registration" element={<Register isSignedIn={isSignedIn} signin={signin} />} />
           <Route path="/about" element={
             <Protected isSignedIn={isSignedIn}>
                 <About query={query}/>

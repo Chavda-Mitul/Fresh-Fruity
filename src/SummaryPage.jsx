@@ -45,7 +45,7 @@ export default function SummaryPage({ selectedItems, setSelectedItems }) {
                     </svg>
                   </div>
                   <span className="text-center w-1/5 font-semibold text-sm">{item.price}</span>
-                  <span className="text-center w-1/5 font-semibold text-sm">$400.00</span>
+                  <span className="text-center w-1/5 font-semibold text-sm">{item.price}</span>
                 </div>
               ))}
             </div>

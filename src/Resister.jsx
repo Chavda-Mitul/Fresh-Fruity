@@ -3,9 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useSignIn } from './useSIgnin';
-export default function Register() {
-  const {isSignedIn, setIsSignedIn , signin, signout} = useSignIn();
+export default function Register({isSignedIn,signin}) {
   const initialValues = {
     name: '',
     email: '',  
@@ -22,20 +20,9 @@ export default function Register() {
      const notify = () => toast("Data sent successfully");
     console.log(isSignedIn);
     console.log(values);
-    fetch('https://dummyjson.com/posts/1', {
-  method: 'PUT', /* or PATCH */
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    title: 'I think I should shift to the moon',
-  })
-})
-
-.then(res => res.json())
-.then(notify())
+    notify();
 };
-function setAuth(){
-  signin();
-}
+
   return (
     <>
     {console.log(isSignedIn)}
@@ -105,7 +92,7 @@ function setAuth(){
 
               <div>
                 <button
-                  onClick={setAuth}
+                  onClick={signin}
                   type="submit"
                   className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >

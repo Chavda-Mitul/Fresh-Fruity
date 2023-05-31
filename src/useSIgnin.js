@@ -5,13 +5,13 @@ export function useSignIn() {
 
   const signin = () => {
     setIsSignedIn(true);
-    console.log('sign in');
+    console.log("sign in");
   };
 
   const signout = () => {
     setIsSignedIn(false);
-    console.log('sign out');
+    console.log("sign out");
   };
 
-  return { isSignedIn ,setIsSignedIn , signin, signout };
+  return { isSignedIn, setIsSignedIn, signin, signout };
 }

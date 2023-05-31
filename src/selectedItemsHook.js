@@ -1,7 +1,7 @@
-import { useState } from 'react';
- 
+import { useState } from "react";
+
 export function selectedItemsHook() {
-  const [selectedItems, setSelectedItems] = useState([]); 
+  const [selectedItems, setSelectedItems] = useState([]);
 
   return { selectedItems, setSelectedItems };
 }

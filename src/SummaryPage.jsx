@@ -20,13 +20,13 @@ export default function SummaryPage({ selectedItems, setSelectedItems }) {
                 <h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-2/5">
                   Product Details
                 </h3>
-                <h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">
+                <h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 ">
                   Quantity
                 </h3>
-                <h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">
+                <h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 ">
                   Price
                 </h3>
-                <h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">
+                <h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5">
                   Total
                 </h3>
               </div>

@@ -10,3 +10,7 @@ function App() {
 }
 
 export default App;
+
+// add edit and delet the list
+// for hte add we will redirect edit page to edit and conform and cancal compent
+// we can also add to cart directy also

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -8,8 +8,14 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import fruits from "./fruitsData";
 import { Button } from "@material-ui/core";
-
 export default function About() {
+  const [fruitsList, setFruitsList] = useState(fruits);
+  const deleteByValue = (value) => {
+    setFruitsList((oldValues) => {
+      return oldValues.filter((fruit) => fruit !== value);
+    });
+  };
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -22,7 +28,7 @@ export default function About() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {fruits.map((row) => (
+          {fruitsList.map((row) => (
             <TableRow
               key={row.id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -36,7 +42,9 @@ export default function About() {
                 <Button variant="contained" style={{ marginRight: "10px" }}>
                   edit
                 </Button>
-                <Button variant="contained">delete</Button>
+                <Button variant="contained" onClick={() => deleteByValue(row)}>
+                  delete
+                </Button>
               </TableCell>
             </TableRow>
           ))}

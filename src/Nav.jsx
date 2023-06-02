@@ -4,8 +4,14 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 
-export default function Nav({ query, setQuery, items }) {
-  const { isSignedIn, signin, signout } = useSignIn();
+export default function Nav({
+  query,
+  setQuery,
+  items,
+  isSignedIn,
+  signin,
+  signout,
+}) {
   return (
     <>
       <nav className="bg-white border-gray-200 dark:bg-gray-900">
@@ -20,9 +26,9 @@ export default function Nav({ query, setQuery, items }) {
               <button
                 type="button"
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                onClick={signin}
+                onClick={signout}
               >
-                Sign-in
+                Sign-out
               </button>
             ) : (
               <button

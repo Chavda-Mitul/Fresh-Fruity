@@ -9,7 +9,6 @@ import About from "./About";
 import { useSignIn } from "./useSIgnin";
 import Protected from "./Protected";
 import Nav from "./Nav";
-import Cart from "./Cart";
 import SummaryPage from "./SummaryPage";
 import EditButton from "./EditButton";
 import fruits from "./fruitsData";
@@ -25,7 +24,14 @@ export default function Navbar() {
     <>
       <Router>
         {/* navigation */}
-        <Nav query={query} setQuery={setQuery} items={items} />
+        <Nav
+          query={query}
+          setQuery={setQuery}
+          items={items}
+          isSignedIn={isSignedIn}
+          signin={signin}
+          signout={signout}
+        />
         <Routes>
           <Route
             exact

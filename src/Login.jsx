@@ -38,7 +38,7 @@ export default function Login({ isSignedIn, signin }) {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        console.log(user);
+        console.log(user.uid);
         localStorage.setItem("user", JSON.stringify(user));
         signin();
         navigate("/");
@@ -158,6 +158,11 @@ export default function Login({ isSignedIn, signin }) {
                 </button>
                 <ToastContainer position="top-center" autoClose={400} />
               </div>
+              <div>
+                <button className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                  Create new account
+                </button>
+              </div>
             </Form>
           </Formik>
         </div>
@@ -165,3 +170,5 @@ export default function Login({ isSignedIn, signin }) {
     </>
   );
 }
+//dplOE6kRU2dzc1Bs0lWPl0chEFv1
+//8Uh3Bd0DzMf3iiFVQLynVGLQhLA3

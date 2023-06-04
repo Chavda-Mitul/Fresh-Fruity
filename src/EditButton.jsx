@@ -1,5 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {
+  doc,
+  updateDoc,
+  getDoc,
+  setDoc,
+  arrayUnion,
+  addDoc,
+  collection,
+  getDocs,
+} from "firebase/firestore";
+import { db } from "./firebaseConfig";
 
 function EditButton({ fruitsList, setFruitsList }) {
   const [inputValue, setInputValue] = useState("");
@@ -14,16 +25,44 @@ function EditButton({ fruitsList, setFruitsList }) {
       color: colorValue,
       price: priceValue,
       weight: 0.68,
-      origin_country: "France",
+      origin_country: "India",
       harvest_date: "11/12/2020",
       expiration_date: "6/16/2022",
       organic: false,
       supplier_name: "Organic Harvest",
       shelf_life: 7,
     };
+
     setFruitsList([...fruitsList, newObject]);
+    // addData();
+    // readData();
+    console.log("button clickd");
     setInputValue("");
     navigate("/about");
+  };
+
+  const addData = async () => {
+    try {
+      const fruit = {
+        name: "apple",
+        price: "1400",
+        color: "red",
+      };
+      const docRef = doc(db, "user", "list");
+      await setDoc(docRef, {
+        fruits: fruitsList,
+      });
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  };
+
+  const readData = async () => {
+    const querySnapshot = await getDocs(collection(db, "person"));
+    querySnapshot.forEach((doc) => {
+      console.log(`${doc.id} => ${doc.data()}`);
+      console.log(JSON.stringify(doc.data()));
+    });
   };
 
   return (

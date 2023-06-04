@@ -19,7 +19,6 @@ export default function Navbar() {
   const { items, setItems } = cartHook();
   const { selectedItems, setSelectedItems } = selectedItemsHook();
   const [fruitsList, setFruitsList] = useState(fruits);
-
   return (
     <>
       <Router>

@@ -38,7 +38,6 @@ export default function Login({ isSignedIn, signin }) {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        console.log(user.uid);
         localStorage.setItem("user", JSON.stringify(user));
         signin();
         navigate("/");
@@ -53,6 +52,7 @@ export default function Login({ isSignedIn, signin }) {
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
+
     if (storedUser) {
       // If user data exists in local storage, set the signin state to true
       signin();

@@ -53,8 +53,10 @@ export default function SignIn({ isSignedIn, signin }) {
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
+    const user = JSON.parse(storedUser);
     if (storedUser) {
       // If user data exists in local storage, set the signin state to true
+      console.log(user.uid);
       signin();
     }
   }, []);

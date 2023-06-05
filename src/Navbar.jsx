@@ -52,7 +52,7 @@ export default function Navbar() {
             element={<Register isSignedIn={isSignedIn} signin={signin} />}
           />
           <Route
-            path="/about"
+            path="/addfruits"
             element={
               <Protected isSignedIn={isSignedIn}>
                 <About fruitsList={fruitsList} setFruitsList={setFruitsList} />

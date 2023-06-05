@@ -13,55 +13,26 @@ import {
 import { db } from "./firebaseConfig";
 
 function EditButton({ fruitsList, setFruitsList }) {
-  const [inputValue, setInputValue] = useState("");
-  const [priceValue, setPriceValue] = useState(0);
-  const [colorValue, setColorValue] = useState("");
+  const storedUser = localStorage.getItem("user");
+  const user = JSON.parse(storedUser);
+  const listCollectionRef = collection(db, user.uid);
+
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState(0);
+  const [weight, setWeight] = useState("");
   const navigate = useNavigate();
 
   const handleAddData = () => {
-    const newObject = {
-      id: fruitsList.length + 1,
-      fruit_name: inputValue,
-      color: colorValue,
-      price: priceValue,
-      weight: 0.68,
-      origin_country: "India",
-      harvest_date: "11/12/2020",
-      expiration_date: "6/16/2022",
-      organic: false,
-      supplier_name: "Organic Harvest",
-      shelf_life: 7,
-    };
-
-    setFruitsList([...fruitsList, newObject]);
-    // addData();
-    // readData();
+    addData();
     console.log("button clickd");
-    setInputValue("");
     navigate("/about");
   };
 
   const addData = async () => {
-    try {
-      const fruit = {
-        name: "apple",
-        price: "1400",
-        color: "red",
-      };
-      const docRef = doc(db, "user", "list");
-      await setDoc(docRef, {
-        fruits: fruitsList,
-      });
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
-  };
-
-  const readData = async () => {
-    const querySnapshot = await getDocs(collection(db, "person"));
-    querySnapshot.forEach((doc) => {
-      console.log(`${doc.id} => ${doc.data()}`);
-      console.log(JSON.stringify(doc.data()));
+    await addDoc(listCollectionRef, {
+      fruit_name: name,
+      price: price,
+      weight: weight,
     });
   };
 
@@ -80,8 +51,8 @@ function EditButton({ fruitsList, setFruitsList }) {
             id="name"
             type="text"
             placeholder="Enter your name"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
         </div>
 
@@ -97,8 +68,8 @@ function EditButton({ fruitsList, setFruitsList }) {
             id="price"
             type="text"
             placeholder="Enter the price"
-            value={priceValue}
-            onChange={(e) => setPriceValue(e.target.value)}
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
           />
         </div>
 
@@ -107,15 +78,15 @@ function EditButton({ fruitsList, setFruitsList }) {
             className="block text-gray-700 text-sm font-bold mr-2"
             htmlFor="color"
           >
-            Color
+            Weight
           </label>
           <input
             className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="color"
             type="text"
             placeholder="Enter the color"
-            value={colorValue}
-            onChange={(e) => setColorValue(e.target.value)}
+            value={weight}
+            onChange={(e) => setWeight(e.target.value)}
           />
         </div>
 

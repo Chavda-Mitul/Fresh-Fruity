@@ -9,9 +9,13 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button } from "@material-ui/core";
 import { db } from "./firebaseConfig";
-import { doc, collection, query, where, getDoc } from "firebase/firestore";
+import { doc, collection, query, where, getDocs } from "firebase/firestore";
 
 export default function About({ fruitsList, setFruitsList }) {
+  const storedUser = localStorage.getItem("user");
+  const user = JSON.parse(storedUser);
+  const listCollectionRef = collection(db, user.uid);
+  const [list, setList] = useState([]);
   const navigate = useNavigate();
   const deleteByValue = (value) => {
     setFruitsList((oldValues) => {
@@ -22,58 +26,28 @@ export default function About({ fruitsList, setFruitsList }) {
   const navigateToEdit = () => {
     navigate("/edit");
   };
+
   // getting the list of the user
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-    // const userParsed = JSON.parse(storedUser);
-    // const userRef = doc(db, userParsed.uid);
-
     if (storedUser) {
       const user = JSON.parse(storedUser);
-      console.log(user.email);
-      // const list = retrieveFruitList(user);
-      // console.log(list);
     }
   }, []);
 
-  const retrieveFruitList = async (userId) => {
+  const getList = async () => {
     try {
-      const collectionRef = collection(db, userId);
-      const q = query(collectionRef, where(userId));
-      const querySnapshot = await getDocs(q);
-
-      if (!querySnapshot.empty) {
-        const userDoc = querySnapshot.docs[0];
-        const fruitListData = userDoc.data().fruitList;
-        console.log("Fruit List Data:", fruitListData);
-        return fruitListData;
-      } else {
-        console.log("No Fruit List found for the user");
-      }
-    } catch (error) {
-      console.error("Error retrieving Fruit List:", error);
+      const data = await getDocs(listCollectionRef);
+      //   console.log(data.data());
+      const listData = data.docs.map((doc) => doc.data());
+      setList(listData);
+    } catch (e) {
+      console.error(e);
     }
   };
-
-  const fetchData = useCallback(async () => {
-    const docRef = doc(db, "user", "list", "fruits");
-    const snapshot = await getDoc(docRef);
-
-    // setFruitsList(Object.entries(snapshot.data()));
-    // console.log(fruitsList[0]);
-    // console.log(snapshot.data());
-    if (snapshot.exists()) {
-      console.log(snapshot.data());
-      console.log("data found");
-    } else {
-      console.log("No data found");
-    }
-  }, []);
-
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
+    getList();
+  }, []);
   return (
     <TableContainer component={Paper} className="mt-2.5">
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -81,7 +55,7 @@ export default function About({ fruitsList, setFruitsList }) {
           <TableRow>
             <TableCell>Fruit Name</TableCell>
             <TableCell align="right">Price</TableCell>
-            <TableCell align="right">Color</TableCell>
+            <TableCell align="right">weight</TableCell>
             <TableCell align="right">
               {" "}
               <Button
@@ -95,19 +69,19 @@ export default function About({ fruitsList, setFruitsList }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {fruitsList.map((row, id) => (
+          {list.map((data, id) => (
             <TableRow
               key={id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.fruit_name}
+                {data.fruit_name}
               </TableCell>
-              <TableCell align="right">{row.price}</TableCell>
-              <TableCell align="right">{row.color}</TableCell>
+              <TableCell align="right">{data.price}</TableCell>
+              <TableCell align="right">{data.weight}</TableCell>
               <TableCell align="right">
                 {/* <Button variant="contained" style={{ marginRight: "10px" }}>
-                  edit
+                  edit  
                 </Button> */}
                 <Button variant="contained" onClick={() => deleteByValue(row)}>
                   delete

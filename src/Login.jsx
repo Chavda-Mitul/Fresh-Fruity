@@ -6,7 +6,11 @@ import * as Yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // import { app } from "./firebaseConfig";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 
 export default function Login({ isSignedIn, signin }) {
   const navigate = useNavigate();
@@ -27,18 +31,16 @@ export default function Login({ isSignedIn, signin }) {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
 
   const auth = getAuth();
 
   const onSubmit = async (e) => {
-    console.log("hello");
     e.preventDefault();
     await signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        localStorage.setItem("user", JSON.stringify(user));
+        const store = localStorage.setItem("user", JSON.stringify(user));
         signin();
         navigate("/");
       })
@@ -72,31 +74,6 @@ export default function Login({ isSignedIn, signin }) {
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <Formik initialValues={initialValues}>
             <Form className="space-y-6">
-              <div>
-                <label
-                  htmlFor="name"
-                  className="text-left block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Name
-                </label>
-                <div className="mt-2">
-                  <Field
-                    id="name"
-                    name="name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    type="text"
-                    autoComplete="name"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
-                  <ErrorMessage
-                    name="name"
-                    component="div"
-                    className="text-red-500 mt-2 text-left"
-                  />
-                </div>
-              </div>
-
               <div>
                 <label
                   htmlFor="email"
@@ -160,7 +137,10 @@ export default function Login({ isSignedIn, signin }) {
                 <ToastContainer position="top-center" autoClose={400} />
               </div>
               <div>
-                <button className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                <button
+                  onClick={() => navigate("/sigin")}
+                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
                   Create new account
                 </button>
               </div>
@@ -171,5 +151,3 @@ export default function Login({ isSignedIn, signin }) {
     </>
   );
 }
-//dplOE6kRU2dzc1Bs0lWPl0chEFv1
-//8Uh3Bd0DzMf3iiFVQLynVGLQhLA3

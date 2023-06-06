@@ -5,11 +5,21 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 import { app } from "./firebaseConfig";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 
 export default function SignIn({ isSignedIn, signin }) {
   const navigate = useNavigate();
+  const [role, setRole] = useState("");
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
@@ -31,35 +41,38 @@ export default function SignIn({ isSignedIn, signin }) {
 
   const auth = getAuth();
 
-  const onSubmit = async (e) => {
-    console.log("hello");
-    e.preventDefault();
-    await createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log(user);
-        signin();
-        const storedUser = localStorage.getItem("user");
-        navigate("/");
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        toast.error(errorMessage);
+  const onSubmit = async () => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+
+      await updateProfile(user, {
+        displayName: role,
       });
+
+      // Set the custom claim for the user's role
+      localStorage.setItem("user", JSON.stringify(user));
+      signin();
+      navigate("/");
+    } catch (error) {
+      // Handle Errors here.
+      const errorMessage = error.message;
+      toast.error(errorMessage);
+    }
   };
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    const user = JSON.parse(storedUser);
-    if (storedUser) {
-      // If user data exists in local storage, set the signin state to true
-      console.log(user.uid);
-      signin();
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedUser = localStorage.getItem("user");
+  //   const user = JSON.parse(storedUser);
+  //   if (storedUser) {
+  //     // If user data exists in local storage, set the signin state to true
+  //     signin();
+  //   }
+  // }, []);
 
   return (
     <>
@@ -149,6 +162,22 @@ export default function SignIn({ isSignedIn, signin }) {
                   />
                 </div>
               </div>
+
+              <Box sx={{ minWidth: 120 }}>
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">Role</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={role}
+                    label="role"
+                    onChange={(e) => setRole(e.target.value)}
+                  >
+                    <MenuItem value={"seller"}>Seller</MenuItem>
+                    <MenuItem value={"buyer"}>Buyer</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
 
               <div>
                 <button

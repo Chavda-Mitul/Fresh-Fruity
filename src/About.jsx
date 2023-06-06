@@ -9,7 +9,14 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button } from "@material-ui/core";
 import { db } from "./firebaseConfig";
-import { doc, collection, query, where, getDocs } from "firebase/firestore";
+import {
+  doc,
+  collection,
+  query,
+  where,
+  getDocs,
+  deleteDoc,
+} from "firebase/firestore";
 
 export default function About({ fruitsList, setFruitsList }) {
   const storedUser = localStorage.getItem("user");
@@ -17,36 +24,36 @@ export default function About({ fruitsList, setFruitsList }) {
   const listCollectionRef = collection(db, user.uid);
   const [list, setList] = useState([]);
   const navigate = useNavigate();
-  const deleteByValue = (value) => {
-    setFruitsList((oldValues) => {
-      return oldValues.filter((fruit) => fruit !== value);
-    });
+
+  const deleteByValue = async (id) => {
+    try {
+      const fruitDoc = doc(db, user.uid, id);
+      await deleteDoc(fruitDoc);
+      console.log("Document deleted successfully");
+      getList();
+    } catch (error) {
+      console.error("Error deleting document: ", error);
+    }
   };
 
   const navigateToEdit = () => {
     navigate("/edit");
   };
 
-  // getting the list of the user
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      const user = JSON.parse(storedUser);
-    }
-  }, []);
-
   const getList = async () => {
     try {
       const data = await getDocs(listCollectionRef);
       //   console.log(data.data());
-      const listData = data.docs.map((doc) => doc.data());
+      const listData = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
       setList(listData);
+      // console.log(list);
     } catch (e) {
       console.error(e);
     }
   };
   useEffect(() => {
     getList();
+    console.log(user.displayName);
   }, []);
   return (
     <TableContainer component={Paper} className="mt-2.5">
@@ -83,7 +90,10 @@ export default function About({ fruitsList, setFruitsList }) {
                 {/* <Button variant="contained" style={{ marginRight: "10px" }}>
                   edit  
                 </Button> */}
-                <Button variant="contained" onClick={() => deleteByValue(row)}>
+                <Button
+                  variant="contained"
+                  onClick={() => deleteByValue(data.id)}
+                >
                   delete
                 </Button>
               </TableCell>

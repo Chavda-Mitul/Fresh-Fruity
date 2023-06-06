@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { searchHook } from "./searchHook";
 import { selectedItemsHook } from "./selectedItemsHook";
 import { cartHook } from "./cartHook";
@@ -7,11 +7,12 @@ import Home from "./Homepage";
 import Register from "./Resister";
 import About from "./About";
 import { useSignIn } from "./useSIgnin";
-import Protected from "./Protected";
+import Protected, { SellerPermition } from "./Protected";
 import Nav from "./Nav";
 import SummaryPage from "./SummaryPage";
 import EditButton from "./EditButton";
 import fruits from "./fruitsData";
+import SignIn from "./SignIn";
 
 export default function Navbar() {
   const { isSignedIn, signin, signout } = useSignIn();
@@ -19,6 +20,13 @@ export default function Navbar() {
   const { items, setItems } = cartHook();
   const { selectedItems, setSelectedItems } = selectedItemsHook();
   const [fruitsList, setFruitsList] = useState(fruits);
+  const storedUser = localStorage.getItem("user");
+  const user = JSON.parse(storedUser);
+  if (user) {
+    console.log("user ", user);
+    var seller = user.displayName == "seller" ? true : false;
+    console.log(seller);
+  }
   return (
     <>
       <Router>
@@ -30,6 +38,7 @@ export default function Navbar() {
           isSignedIn={isSignedIn}
           signin={signin}
           signout={signout}
+          seller={seller}
         />
         <Routes>
           <Route
@@ -55,7 +64,12 @@ export default function Navbar() {
             path="/addfruits"
             element={
               <Protected isSignedIn={isSignedIn}>
-                <About fruitsList={fruitsList} setFruitsList={setFruitsList} />
+                <SellerPermition isSeller={seller}>
+                  <About
+                    fruitsList={fruitsList}
+                    setFruitsList={setFruitsList}
+                  />
+                </SellerPermition>
               </Protected>
             }
           />
@@ -80,6 +94,11 @@ export default function Navbar() {
                 />
               </Protected>
             }
+          />
+
+          <Route
+            path="/sigin"
+            element={<SignIn isSignedIn={isSignedIn} signin={signin} />}
           />
         </Routes>
       </Router>

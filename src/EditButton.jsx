@@ -25,7 +25,7 @@ function EditButton({ fruitsList, setFruitsList }) {
   const handleAddData = () => {
     addData();
     console.log("button clickd");
-    navigate("/about");
+    navigate("/addfruits");
   };
 
   const addData = async () => {

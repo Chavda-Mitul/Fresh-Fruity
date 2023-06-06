@@ -1,21 +1,34 @@
 import { Card, Grid, Row, Text, Button } from "@nextui-org/react";
 import { useState, useEffect } from "react";
 import list from "./listData";
+import {
+  doc,
+  updateDoc,
+  getDoc,
+  setDoc,
+  arrayUnion,
+  addDoc,
+  collection,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
+import { db } from "./firebaseConfig";
 
 export default function Cards({
-  query,
+  _query,
   items,
   setItems,
   selectedItems,
   setSelectedItems,
 }) {
-  // const [selectedItems, setSelectedItems] = useState([]);
-
+  const storedUser = localStorage.getItem("user");
+  const user = JSON.parse(storedUser);
+  const cartListRef = collection(db, user.uid, "cart/list");
   const Filterlist = list.filter((data) => {
-    if (query === "") return data;
-    else return data.title.toLowerCase().includes(query.toLowerCase());
+    if (_query === "") return data;
+    else return data.title.toLowerCase().includes(_query.toLowerCase());
   });
-  // console.log(Filterlist);
   const addToCart = (item) => {
     const itemIndex = selectedItems.findIndex(
       (selectedItem) => selectedItem.id === item.id
@@ -34,14 +47,37 @@ export default function Cards({
       };
       setSelectedItems([...selectedItems, newItem]);
     }
+    addData(item);
     setItems(selectedItems.length + 1);
-    console.log(selectedItems);
+  };
+  const addData = async (item) => {
+    await addDoc(cartListRef, {
+      item,
+    });
   };
 
-  console.log(selectedItems);
-  // useEffect(() => {
-  //   console.log(items);
-  // }, [items]);
+  const updateData = async (item) => {
+    try {
+      const data = await getDocs(cartListRef);
+      const listData = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+      const id = listData[0].id;
+      const UpdateRef = doc(db, user.uid, "cart/list", id);
+      await updateDoc(UpdateRef, {
+        quantity: 10,
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  };
+  const readData = async () => {
+    const docSnap = await getDoc(cartListRef);
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+    } else {
+      // docSnap.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  };
   return (
     <Grid.Container gap={2} justify="flex-start">
       {Filterlist.map((item) => (

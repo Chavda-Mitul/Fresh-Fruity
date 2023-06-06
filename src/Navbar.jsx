@@ -23,9 +23,9 @@ export default function Navbar() {
   const storedUser = localStorage.getItem("user");
   const user = JSON.parse(storedUser);
   if (user) {
-    console.log("user ", user);
+    // console.log("user ", user);
     var seller = user.displayName == "seller" ? true : false;
-    console.log(seller);
+    // console.log(seller);
   }
   return (
     <>

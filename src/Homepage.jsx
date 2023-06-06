@@ -6,7 +6,7 @@ function HomePage({ query, items, setItems, selectedItems, setSelectedItems }) {
   return (
     <>
       <Cards
-        query={query}
+        _query={query}
         items={items}
         setItems={setItems}
         selectedItems={selectedItems}

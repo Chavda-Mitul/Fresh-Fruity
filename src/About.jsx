@@ -21,7 +21,7 @@ import {
 export default function About({ fruitsList, setFruitsList }) {
   const storedUser = localStorage.getItem("user");
   const user = JSON.parse(storedUser);
-  const listCollectionRef = collection(db, user.uid);
+  const listCollectionRef = collection(db, user.uid, "fruits/list");
   const [list, setList] = useState([]);
   const navigate = useNavigate();
 

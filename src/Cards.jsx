@@ -17,10 +17,27 @@ export default function Cards({
   });
   // console.log(Filterlist);
   const addToCart = (item) => {
-    setSelectedItems([...selectedItems, item]);
+    const itemIndex = selectedItems.findIndex(
+      (selectedItem) => selectedItem.id === item.id
+    );
+
+    if (itemIndex !== -1) {
+      // Item already exists in the cart, update its quantity
+      const updatedItems = [...selectedItems];
+      updatedItems[itemIndex].quantity += 1;
+      setSelectedItems(updatedItems);
+    } else {
+      // Item doesn't exist in the cart, add it as a new item
+      const newItem = {
+        ...item,
+        quantity: 1,
+      };
+      setSelectedItems([...selectedItems, newItem]);
+    }
     setItems(selectedItems.length + 1);
-    console.log("s");
+    console.log(selectedItems);
   };
+
   console.log(selectedItems);
   // useEffect(() => {
   //   console.log(items);

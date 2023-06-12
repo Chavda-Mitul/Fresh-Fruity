@@ -1,24 +1,18 @@
 import { useSignIn } from "./useSIgnin";
-import { searchHook } from "./searchHook";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setQuery } from "./features/query/querySlice";
 
-export default function Nav({
-  query,
-  setQuery,
-  items,
-  isSignedIn,
-  signin,
-  signout,
-  seller,
-}) {
+export default function Nav({ items, isSignedIn, signin, signout, seller }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -109,7 +103,7 @@ export default function Nav({
             </ul>
             <input
               type="text"
-              onChange={(event) => setQuery(event.target.value)}
+              onChange={(event) => dispatch(setQuery(event.target.value))}
               placeholder="Search.."
               className="mr-6 border-2 border-gray-300 py-2 px-4 rounded-md focus:outline-none ml-10 mt-2 md:ml-0 md:mt-0"
             ></input>

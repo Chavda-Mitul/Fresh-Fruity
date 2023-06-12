@@ -1,5 +1,7 @@
 import { Card, Grid, Row, Text, Button } from "@nextui-org/react";
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+
 import list from "./listData";
 import {
   doc,
@@ -16,7 +18,6 @@ import {
 import { db } from "./firebaseConfig";
 
 export default function Cards({
-  _query,
   items,
   setItems,
   selectedItems,
@@ -25,6 +26,8 @@ export default function Cards({
   const storedUser = localStorage.getItem("user");
   const user = JSON.parse(storedUser);
   const cartListRef = collection(db, user.uid, "cart/list");
+  const _query = useSelector((state) => state.query.value);
+
   const Filterlist = list.filter((data) => {
     if (_query === "") return data;
     else return data.title.toLowerCase().includes(_query.toLowerCase());

@@ -1,12 +1,11 @@
 import Cards from "./Cards";
 
-function HomePage({ query, items, setItems, selectedItems, setSelectedItems }) {
+function HomePage({ items, setItems, selectedItems, setSelectedItems }) {
   const storedUser = localStorage.getItem("user");
   const user = JSON.parse(storedUser);
   return (
     <>
       <Cards
-        _query={query}
         items={items}
         setItems={setItems}
         selectedItems={selectedItems}

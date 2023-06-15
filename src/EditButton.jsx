@@ -15,7 +15,7 @@ import { db } from "./firebaseConfig";
 function EditButton({ fruitsList, setFruitsList }) {
   const storedUser = localStorage.getItem("user");
   const user = JSON.parse(storedUser);
-  const listCollectionRef = collection(db, user.uid, "fruits/list");
+  const listCollectionRef = collection(db, user.uid);
 
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);

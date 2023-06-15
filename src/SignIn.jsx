@@ -88,6 +88,31 @@ export default function SignIn({ isSignedIn, signin }) {
             <Form className="space-y-6">
               <div>
                 <label
+                  htmlFor="name"
+                  className="text-left block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Name
+                </label>
+                <div className="mt-2">
+                  <Field
+                    id="name"
+                    name="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    type="text"
+                    autoComplete="name"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                  <ErrorMessage
+                    name="name"
+                    component="div"
+                    className="text-red-500 mt-2 text-left"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label
                   htmlFor="email"
                   className="text-left block text-sm font-medium leading-6 text-gray-900"
                 >

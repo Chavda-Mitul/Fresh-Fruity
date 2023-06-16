@@ -10,7 +10,14 @@ function Protected({ children }) {
   }
   return <>{children}</>;
 }
-export const SellerPermition = ({ isSeller = false, children }) => {
+export const SellerPermition = ({ children }) => {
+  const storedUser = localStorage.getItem("user");
+  const user = JSON.parse(storedUser);
+  if (user) {
+    console.log("user ", user);
+    var isSeller = user.displayName == "seller" ? true : false;
+    console.log(isSeller);
+  }
   if (isSeller) {
     return <>{children}</>;
   } else {

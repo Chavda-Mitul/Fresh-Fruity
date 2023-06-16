@@ -1,20 +1,15 @@
 import { Card, Grid, Row, Text, Button } from "@nextui-org/react";
-import { useState, useEffect } from "react";
 import list from "./listData";
 import { useSelector, useDispatch } from "react-redux";
-export default function Cards({
-  items,
-  setItems,
-  selectedItems,
-  setSelectedItems,
-}) {
-  // const [selectedItems, setSelectedItems] = useState([]);
+import { setSelectedItems } from "./features/cartItems/itemSlice";
+export default function Cards() {
   const query = useSelector((state) => state.query.value);
+  const selectedItems = useSelector((state) => state.selectedItems.value);
+  const dispatch = useDispatch();
   const Filterlist = list.filter((data) => {
     if (query === "") return data;
     else return data.title.toLowerCase().includes(query.toLowerCase());
   });
-  // console.log(Filterlist);
   const addToCart = (item) => {
     const itemIndex = selectedItems.findIndex(
       (selectedItem) => selectedItem.id === item.id
@@ -23,24 +18,22 @@ export default function Cards({
     if (itemIndex !== -1) {
       // Item already exists in the cart, update its quantity
       const updatedItems = [...selectedItems];
-      updatedItems[itemIndex].quantity += 1;
-      setSelectedItems(updatedItems);
+      const updatedItem = { ...updatedItems[itemIndex] }; // Create a new object
+      updatedItem.quantity += 1; // Update the quantity of the new object
+      updatedItems[itemIndex] = updatedItem; // Replace the item in the array
+      dispatch(setSelectedItems(updatedItems));
     } else {
       // Item doesn't exist in the cart, add it as a new item
       const newItem = {
         ...item,
         quantity: 1,
       };
-      setSelectedItems([...selectedItems, newItem]);
+      dispatch(setSelectedItems([...selectedItems, newItem]));
     }
-    setItems(selectedItems.length + 1);
     console.log(selectedItems);
   };
+  console.log("log", selectedItems);
 
-  console.log(selectedItems);
-  // useEffect(() => {
-  //   console.log(items);
-  // }, [items]);
   return (
     <Grid.Container gap={2} justify="flex-start">
       {Filterlist.map((item) => (

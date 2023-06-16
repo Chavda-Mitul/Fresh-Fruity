@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { selectedItemsHook } from "./selectedItemsHook";
-import { cartHook } from "./cartHook";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import Home from "./Homepage";
 import Register from "./Resister";
@@ -11,11 +9,9 @@ import SummaryPage from "./SummaryPage";
 import EditButton from "./EditButton";
 import SignIn from "./SignIn";
 import { useSelector, useDispatch } from "react-redux";
-import { signin, signout } from "./features/auth/siginSlicer";
+
 export default function Navbar() {
   const isSignedIn = useSelector((state) => state.sigin.value);
-  const { items, setItems } = cartHook();
-  const { selectedItems, setSelectedItems } = selectedItemsHook();
   const storedUser = localStorage.getItem("user");
   const user = JSON.parse(storedUser);
   if (user) {
@@ -27,7 +23,7 @@ export default function Navbar() {
     <>
       <Router>
         {/* navigation */}
-        <Nav items={items} seller={seller} />
+        <Nav />
         {/* navigation */}
         <Routes>
           <Route
@@ -35,12 +31,7 @@ export default function Navbar() {
             path="/"
             element={
               <Protected>
-                <Home
-                  items={items}
-                  setItems={setItems}
-                  selectedItems={selectedItems}
-                  setSelectedItems={setSelectedItems}
-                />
+                <Home />
               </Protected>
             }
           />
@@ -49,7 +40,7 @@ export default function Navbar() {
             path="/addfruits"
             element={
               <Protected>
-                <SellerPermition isSeller={seller}>
+                <SellerPermition>
                   <About />
                 </SellerPermition>
               </Protected>
@@ -59,10 +50,7 @@ export default function Navbar() {
             path="/cart"
             element={
               <Protected>
-                <SummaryPage
-                  selectedItems={selectedItems}
-                  setSelectedItems={setSelectedItems}
-                />
+                <SummaryPage />
               </Protected>
             }
           />

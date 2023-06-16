@@ -1,31 +1,58 @@
-// import { Card, Grid, Row, Text, Button } from "@nextui-org/react";
-
 import { useEffect, useState } from "react";
-import { array } from "yup";
-
-export default function SummaryPage({ selectedItems, setSelectedItems }) {
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { setSelectedItems } from "./features/cartItems/itemSlice";
+export default function SummaryPage() {
+  const navigate = useNavigate();
   const [Quantity, setQuantity] = useState();
+  const dispatch = useDispatch();
+  const selectedItems = useSelector((state) => state.selectedItems.value);
   var Total = 0;
   const handleQuantityChange = (event) => {
     setQuantity(event.target.value);
   };
+
   const addItemQuantity = (item) => {
-    item.quantity = item.quantity + 1;
-    setQuantity(item.quantity);
-    setSelectedItems(selectedItems);
+    const updatedItems = selectedItems.map((selectedItem) => {
+      if (selectedItem.id === item.id) {
+        // Item found, create a new object with updated quantity
+        return {
+          ...selectedItem,
+          quantity: selectedItem.quantity + 1,
+        };
+      }
+      // Item not found, return the original object
+      return selectedItem;
+    });
+
+    setQuantity(item.quantity + 1);
+    dispatch(setSelectedItems(updatedItems));
   };
 
   const subItemQuantity = (item) => {
-    item.quantity = item.quantity - 1;
-    setQuantity(item.quantity);
-    setSelectedItems(selectedItems);
-    if (item.quantity <= 0) {
+    const updatedItems = selectedItems.map((selectedItem) => {
+      if (selectedItem.id === item.id) {
+        // Item found, create a new object with updated quantity
+        return {
+          ...selectedItem,
+          quantity: selectedItem.quantity - 1,
+        };
+      }
+      // Item not found, return the original object
+      return selectedItem;
+    });
+
+    setQuantity(item.quantity - 1);
+    dispatch(setSelectedItems(updatedItems));
+    if (item.quantity <= 1) {
       removeItem(item.id);
     }
   };
 
   const removeItem = (itemId) => {
-    setSelectedItems(selectedItems.filter((item) => item.id !== itemId));
+    dispatch(
+      setSelectedItems(selectedItems.filter((item) => item.id !== itemId))
+    );
   };
 
   const calulateTotal = () => {
@@ -43,7 +70,19 @@ export default function SummaryPage({ selectedItems, setSelectedItems }) {
         <div className="container mx-auto mt-10">
           <div className="flex shadow-md my-10">
             {Total <= 0 ? (
-              <h1>Purchase something</h1>
+              <div className="h-full m-auto p-32 text-center">
+                <div className="text-4xl font-bold text-center">
+                  Purchase something
+                </div>
+                <div className="mt-4">
+                  <button
+                    onClick={() => navigate("/")}
+                    className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
+                  >
+                    Buy Now
+                  </button>
+                </div>
+              </div>
             ) : (
               <div className="w-full bg-white px-10 py-10">
                 <div className="flex justify-between border-b pb-8">

@@ -1,4 +1,5 @@
 import { useSignIn } from "./useSIgnin";
+import { useState } from "react";
 import { searchHook } from "./searchHook";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -6,10 +7,19 @@ import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { setQuery } from "./features/query/querySlice";
 import { signout } from "./features/auth/siginSlicer";
-export default function Nav({ items, seller }) {
+
+export default function Nav() {
   const query = useSelector((state) => state.query.value);
   const isSignedIn = useSelector((state) => state.sigin.value);
   const dispatch = useDispatch();
+  const cartSelectedItems = useSelector((state) => state.selectedItems.value);
+  const storedUser = localStorage.getItem("user");
+  const user = JSON.parse(storedUser);
+  if (user) {
+    console.log("user ", user);
+    var seller = user.displayName == "seller" ? true : false;
+    console.log(seller);
+  }
   return (
     <>
       <nav className="bg-white border-gray-200 dark:bg-gray-900">
@@ -107,7 +117,7 @@ export default function Nav({ items, seller }) {
                   style={{ right: "188px", top: "49px" }}
                   className="absolute z-2 text-xs font-bold bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center "
                 >
-                  {items}
+                  {cartSelectedItems.length}
                 </span>
                 <FontAwesomeIcon
                   icon={faCartShopping}

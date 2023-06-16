@@ -6,12 +6,7 @@ function HomePage({ items, setItems, selectedItems, setSelectedItems }) {
   const query = useSelector((state) => state.query.queryValue);
   return (
     <>
-      <Cards
-        items={items}
-        setItems={setItems}
-        selectedItems={selectedItems}
-        setSelectedItems={setSelectedItems}
-      />
+      <Cards />
     </>
   );
 }

@@ -18,7 +18,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 
-export default function About({ fruitsList, setFruitsList }) {
+export default function About() {
   const storedUser = localStorage.getItem("user");
   const user = JSON.parse(storedUser);
   const listCollectionRef = collection(db, user.uid);

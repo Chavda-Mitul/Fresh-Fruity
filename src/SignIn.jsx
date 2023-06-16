@@ -11,16 +11,19 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { app } from "./firebaseConfig";
+import { useSelector, useDispatch } from "react-redux";
+import { signin } from "./features/auth/siginSlicer";
+
 import {
   getAuth,
   createUserWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
 
-export default function SignIn({ isSignedIn, signin }) {
+export default function SignIn() {
   const navigate = useNavigate();
   const [role, setRole] = useState("");
-
+  const dispatch = useDispatch();
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
@@ -56,7 +59,7 @@ export default function SignIn({ isSignedIn, signin }) {
 
       // Set the custom claim for the user's role
       localStorage.setItem("user", JSON.stringify(user));
-      signin();
+      dispatch(signin());
       navigate("/");
     } catch (error) {
       // Handle Errors here.

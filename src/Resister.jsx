@@ -6,15 +6,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SignIn from "./SignIn";
 import Login from "./Login";
-
-export default function Register({ isSignedIn, signin }) {
-  return (
-    <>
-      {isSignedIn ? (
-        <SignIn isSignedIn={isSignedIn} signin={signin} />
-      ) : (
-        <Login isSignedIn={isSignedIn} signin={signin} />
-      )}
-    </>
-  );
+import { useSelector, useDispatch } from "react-redux";
+import { signin } from "./features/auth/siginSlicer";
+export default function Register({ signin }) {
+  const isSignedIn = useSelector((state) => state.sigin.value);
+  return <>{isSignedIn ? <SignIn /> : <Login />}</>;
 }

@@ -1,7 +1,9 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
-function Protected({ isSignedIn, children }) {
+function Protected({ children }) {
+  const isSignedIn = useSelector((state) => state.sigin.value);
   if (!isSignedIn) {
     console.log("->", isSignedIn);
     return <Navigate to="/registration" replace />;

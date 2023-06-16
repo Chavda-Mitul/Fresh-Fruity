@@ -5,9 +5,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { setQuery } from "./features/query/querySlice";
-
-export default function Nav({ items, isSignedIn, signin, signout, seller }) {
+import { signout } from "./features/auth/siginSlicer";
+export default function Nav({ items, seller }) {
   const query = useSelector((state) => state.query.value);
+  const isSignedIn = useSelector((state) => state.sigin.value);
   const dispatch = useDispatch();
   return (
     <>
@@ -23,7 +24,7 @@ export default function Nav({ items, isSignedIn, signin, signout, seller }) {
               <button
                 type="button"
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                onClick={signout}
+                onClick={() => dispatch(signout())}
               >
                 Sign-out
               </button>
@@ -31,7 +32,7 @@ export default function Nav({ items, isSignedIn, signin, signout, seller }) {
               <button
                 type="button"
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                onClick={signout}
+                onClick={() => dispatch(signout())}
               >
                 Sign-out
               </button>

@@ -12,7 +12,7 @@ import {
 } from "firebase/firestore";
 import { db } from "./firebaseConfig";
 
-function EditButton({ fruitsList, setFruitsList }) {
+function EditButton() {
   const storedUser = localStorage.getItem("user");
   const user = JSON.parse(storedUser);
   const listCollectionRef = collection(db, user.uid);

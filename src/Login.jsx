@@ -5,16 +5,17 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import { app } from "./firebaseConfig";
+import { useSelector, useDispatch } from "react-redux";
+import { signin } from "./features/auth/siginSlicer";
 import {
   getAuth,
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
 
-export default function Login({ isSignedIn, signin }) {
+export default function Login() {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
@@ -41,7 +42,7 @@ export default function Login({ isSignedIn, signin }) {
         // Signed in
         const user = userCredential.user;
         const store = localStorage.setItem("user", JSON.stringify(user));
-        signin();
+        dispatch(signin());
         navigate("/");
       })
       .catch((error) => {
@@ -58,7 +59,7 @@ export default function Login({ isSignedIn, signin }) {
     if (storedUser) {
       // If user data exists in local storage, set the signin state to true
       console.log(user.uid);
-      signin();
+      dispatch(signin());
     }
   }, []);
 

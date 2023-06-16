@@ -43,10 +43,9 @@ export default function About({ fruitsList, setFruitsList }) {
   const getList = async () => {
     try {
       const data = await getDocs(listCollectionRef);
-      //   console.log(data.data());
       const listData = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
       setList(listData);
-      // console.log(list);
+      console.log(listData);
     } catch (e) {
       console.error(e);
     }

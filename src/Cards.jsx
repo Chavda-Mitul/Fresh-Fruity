@@ -1,16 +1,15 @@
 import { Card, Grid, Row, Text, Button } from "@nextui-org/react";
 import { useState, useEffect } from "react";
 import list from "./listData";
-
+import { useSelector, useDispatch } from "react-redux";
 export default function Cards({
-  query,
   items,
   setItems,
   selectedItems,
   setSelectedItems,
 }) {
   // const [selectedItems, setSelectedItems] = useState([]);
-
+  const query = useSelector((state) => state.query.value);
   const Filterlist = list.filter((data) => {
     if (query === "") return data;
     else return data.title.toLowerCase().includes(query.toLowerCase());

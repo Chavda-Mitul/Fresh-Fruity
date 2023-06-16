@@ -16,7 +16,6 @@ import SignIn from "./SignIn";
 
 export default function Navbar() {
   const { isSignedIn, signin, signout } = useSignIn();
-  const { query, setQuery } = searchHook();
   const { items, setItems } = cartHook();
   const { selectedItems, setSelectedItems } = selectedItemsHook();
   const [fruitsList, setFruitsList] = useState(fruits);
@@ -27,13 +26,12 @@ export default function Navbar() {
     var seller = user.displayName == "seller" ? true : false;
     console.log(seller);
   }
+
   return (
     <>
       <Router>
         {/* navigation */}
         <Nav
-          query={query}
-          setQuery={setQuery}
           items={items}
           isSignedIn={isSignedIn}
           signin={signin}
@@ -47,7 +45,6 @@ export default function Navbar() {
             element={
               <Protected isSignedIn={isSignedIn}>
                 <Home
-                  query={query}
                   items={items}
                   setItems={setItems}
                   selectedItems={selectedItems}

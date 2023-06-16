@@ -1,10 +1,13 @@
 import "./App.css";
 import Navbar from "./Navbar";
-import { Router } from "react-router-dom";
+import store from "./app/store";
+import { Provider } from "react-redux";
 function App() {
   return (
     <>
-      <Navbar />
+      <Provider store={store}>
+        <Navbar />
+      </Provider>
     </>
   );
 }

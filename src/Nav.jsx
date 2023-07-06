@@ -1,6 +1,4 @@
-import { useSignIn } from "./useSIgnin";
-import { useState } from "react";
-import { searchHook } from "./searchHook";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
@@ -15,11 +13,17 @@ export default function Nav() {
   const cartSelectedItems = useSelector((state) => state.selectedItems.value);
   const storedUser = localStorage.getItem("user");
   const user = JSON.parse(storedUser);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   if (user) {
     console.log("user ", user);
     var seller = user.displayName == "seller" ? true : false;
     console.log(seller);
   }
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <>
       <nav className="bg-white border-gray-200 dark:bg-gray-900">
@@ -49,11 +53,11 @@ export default function Nav() {
             )}
 
             <button
-              data-collapse-toggle="navbar-cta"
               type="button"
               className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
               aria-controls="navbar-cta"
-              aria-expanded="false"
+              aria-expanded={isMenuOpen ? "true" : "false"}
+              onClick={toggleMenu}
             >
               <span className="sr-only">Open main menu</span>
               <svg
@@ -72,7 +76,9 @@ export default function Nav() {
             </button>
           </div>
           <div
-            className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1 flex-grow"
+            className={`items-center justify-between ${
+              isMenuOpen ? "block" : "hidden"
+            } w-full md:flex md:w-auto md:order-1 flex-grow`}
             id="navbar-cta"
           >
             <ul className="flex-grow ml-9 flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">

@@ -14,6 +14,9 @@ export default function Navbar() {
   const isSignedIn = useSelector((state) => state.sigin.value);
   const storedUser = localStorage.getItem("user");
   const user = JSON.parse(storedUser);
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // Add isMenuOpen state
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
   if (user) {
     console.log("user ", user);
     var seller = user.displayName == "seller" ? true : false;

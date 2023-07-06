@@ -128,7 +128,7 @@ export default function Nav() {
                 <FontAwesomeIcon
                   icon={faCartShopping}
                   size="xl"
-                  style={{ color: "#ffffff", cursor: "pointer" }}
+                  style={{ color: "#6edcf5", cursor: "pointer" }}
                 />
               </div>
             </Link>
